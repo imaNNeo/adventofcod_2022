@@ -1,0 +1,4 @@
+
+String solveDay1() {
+
+}
