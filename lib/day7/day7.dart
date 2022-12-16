@@ -47,7 +47,7 @@ Future<String> solveDay7() async {
   int needSpace = 30000000 - (70000000 - currentDir.size);
   int minDeleteSize = 0;
 
-  BFS(currentDir, (MyDirectory dir) {
+  _BFS(currentDir, (MyDirectory dir) {
     if (dir.size <= 100000) {
       sum += dir.size;
     }
@@ -61,7 +61,7 @@ Future<String> solveDay7() async {
   return 'part1: $sum, part2: $minDeleteSize';
 }
 
-void BFS(MyDirectory start, Function(MyDirectory) callback) {
+void _BFS(MyDirectory start, Function(MyDirectory) callback) {
   final queue = [start];
 
   callback(start);
