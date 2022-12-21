@@ -226,6 +226,9 @@ void _recursiveBfs<Node>({
     newQueue.addAll(childrenOf(out).map((n) => _NodeWithPath(n, path + [out])));
   }
 
+  if (newQueue.isEmpty) {
+    return;
+  }
   _recursiveBfs(
     node: newQueue.first.node,
     childrenOf: childrenOf,
