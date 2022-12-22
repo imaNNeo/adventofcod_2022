@@ -118,3 +118,38 @@ class Node with EquatableMixin {
   @override
   List<Object?> get props => [position];
 }
+
+enum Direction {
+  left(2),
+  up(3),
+  right(0),
+  down(1);
+  final int score;
+  const Direction(this.score);
+
+  Direction turnRight() {
+    switch(this) {
+      case Direction.left:
+        return Direction.up;
+      case Direction.up:
+        return Direction.right;
+      case Direction.right:
+        return Direction.down;
+      case Direction.down:
+        return Direction.left;
+    }
+  }
+
+  Direction turnLeft() {
+    switch(this) {
+      case Direction.left:
+        return Direction.down;
+      case Direction.up:
+        return Direction.left;
+      case Direction.right:
+        return Direction.up;
+      case Direction.down:
+        return Direction.right;
+    }
+  }
+}
