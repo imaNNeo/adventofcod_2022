@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-class Pair<A, B> with EquatableMixin {
-  final A a;
-  final B b;
+class Pair<First, Second> with EquatableMixin {
+  final First first;
+  final Second second;
 
-  Pair(this.a, this.b);
+  Pair(this.first, this.second);
 
   Pair copyWith({
-    A? a,
-    B? b,
+    First? first,
+    Second? second,
   }) =>
-      Pair(a ?? this.a, b ?? this.b);
+      Pair(first ?? this.first, second ?? this.second);
 
   @override
-  List<Object?> get props => [a, b];
+  List<Object?> get props => [first, second];
 }

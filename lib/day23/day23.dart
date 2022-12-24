@@ -128,17 +128,17 @@ void _moveToProposedPositions(
 ) {
   Set<Position> duplicateDestinations = {};
 
-  final allDestinations = proposed.map((e) => e.b);
+  final allDestinations = proposed.map((e) => e.second);
   for (var dest in allDestinations) {
     final count = allDestinations.where((element) => element == dest).length;
     if (count > 1) {
       duplicateDestinations.add(dest);
     }
   }
-  proposed.removeWhere((element) => duplicateDestinations.contains(element.b));
+  proposed.removeWhere((element) => duplicateDestinations.contains(element.second));
   for (final pair in proposed) {
-    final prevPos = pair.a;
-    final newPos = pair.b;
+    final prevPos = pair.first;
+    final newPos = pair.second;
     final char = map.remove(prevPos)!;
     map[newPos] = char;
   }

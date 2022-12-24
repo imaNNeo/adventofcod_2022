@@ -13,6 +13,7 @@ import 'package:adventofcode/day20/day20.dart';
 import 'package:adventofcode/day21/day21.dart';
 import 'package:adventofcode/day22/day22.dart';
 import 'package:adventofcode/day23/day23.dart';
+import 'package:adventofcode/day24/day24.dart';
 import 'package:adventofcode/day3/day2.dart';
 import 'package:adventofcode/day4/day4.dart';
 import 'package:adventofcode/day5/day5.dart';
@@ -46,4 +47,5 @@ void main(List<String> arguments) async {
   print('Day21 answer is: ${await solveDay21()}');
   print('Day22 answer is: ${await solveDay22()}');
   print('Day23 answer is: ${await solveDay23()}');
+  print('Day24 answer is: ${await solveDay24()}');
 }
