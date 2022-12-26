@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
-Future<String> solveDay9() async {
-  final inputFile = File('lib/day9/input.txt');
+Future<String> solveDay09() async {
+  final inputFile = File('lib/day09/input.txt');
   final lines = await inputFile.readAsLines();
   return 'part1: ${findTailMoves(lines, 2)}, part2: ${findTailMoves(lines, 10)}';
 }

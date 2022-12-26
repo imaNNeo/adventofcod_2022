@@ -1,7 +1,7 @@
 import 'dart:io';
 
-Future<String> solveDay2() async {
-  final inputFile = File('lib/day2/input.txt');
+Future<String> solveDay02() async {
+  final inputFile = File('lib/day02/input.txt');
   final lines = await inputFile.readAsLines();
   int sumScore = 0;
   for (final line in lines) {

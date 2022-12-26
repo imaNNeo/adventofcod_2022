@@ -1,8 +1,8 @@
 
 import 'dart:io';
 
-Future<String> solveDay1() async {
-  final inputFile = File('lib/day1/input.txt');
+Future<String> solveDay01() async {
+  final inputFile = File('lib/day01/input.txt');
   final lines = await inputFile.readAsLines();
   List<int> carriedCalories = [];
 

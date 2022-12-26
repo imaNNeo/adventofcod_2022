@@ -1,8 +1,8 @@
 import 'dart:collection';
 import 'dart:io';
 
-Future<String> solveDay5() async {
-  final inputFile = File('lib/day5/input.txt');
+Future<String> solveDay05() async {
+  final inputFile = File('lib/day05/input.txt');
   final lines = await inputFile.readAsLines();
 
   List<List<String>> allData = createDS(lines);

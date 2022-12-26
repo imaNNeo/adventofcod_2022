@@ -1,8 +1,8 @@
 import 'dart:collection';
 import 'dart:io';
 
-Future<String> solveDay6() async {
-  final inputFile = File('lib/day6/input.txt');
+Future<String> solveDay06() async {
+  final inputFile = File('lib/day06/input.txt');
   final line = (await inputFile.readAsLines())[0];
   final part1 = _findFirstUniqueBatch(line, 4);
   final part2 = _findFirstUniqueBatch(line, 14);

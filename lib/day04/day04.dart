@@ -1,7 +1,7 @@
 import 'dart:io';
 
-Future<String> solveDay4() async {
-  final inputFile = File('lib/day4/input.txt');
+Future<String> solveDay04() async {
+  final inputFile = File('lib/day04/input.txt');
   final lines = await inputFile.readAsLines();
 
   int counter = 0;

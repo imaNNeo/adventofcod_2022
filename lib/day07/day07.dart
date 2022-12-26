@@ -1,7 +1,7 @@
 import 'dart:io';
 
-Future<String> solveDay7() async {
-  final inputFile = File('lib/day7/input.txt');
+Future<String> solveDay07() async {
+  final inputFile = File('lib/day07/input.txt');
   final lines = await inputFile.readAsLines();
 
   late MyDirectory currentDir;
