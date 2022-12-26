@@ -3,154 +3,172 @@ import 'dart:io';
 Future<String> solveDay02() async {
   final inputFile = File('lib/day02/input.txt');
   final lines = await inputFile.readAsLines();
+  return 'part1: ${part1(lines)}, part2: ${part2(lines)}';
+}
+
+int part1(List<String> lines) {
   int sumScore = 0;
   for (final line in lines) {
     final values = line.split(' ');
-    final otherShape = getOtherShape(values[0]);
-    // final myShape = getMyShape(values[1]);
-    final forcedResult = getForcedResult(values[1]);
-    final myShape = getMyShapeToGetResult(otherShape, forcedResult);
-    final result = getResult(otherShape, myShape);
+    final otherShape = _getOtherShape(values[0]);
+    final myShape = getMyShape(values[1]);
+    final result = _getResult(otherShape, myShape);
     final addingScore =
-        calculateResultScore(result) + calculateShapeScore(myShape);
+        _calculateResultScore(result) + _calculateShapeScore(myShape);
     sumScore += addingScore;
   }
-  return sumScore.toString();
+  return sumScore;
 }
 
-Shape getMyShapeToGetResult(Shape otherShape, Result forcedResult) {
+int part2(List<String> lines) {
+  int sumScore = 0;
+  for (final line in lines) {
+    final values = line.split(' ');
+    final otherShape = _getOtherShape(values[0]);
+    // final myShape = getMyShape(values[1]);
+    final forcedResult = _getForcedResult(values[1]);
+    final myShape = _getMyShapeToGetResult(otherShape, forcedResult);
+    final result = _getResult(otherShape, myShape);
+    final addingScore =
+        _calculateResultScore(result) + _calculateShapeScore(myShape);
+    sumScore += addingScore;
+  }
+  return sumScore;
+}
+
+_Shape _getMyShapeToGetResult(_Shape otherShape, _Result forcedResult) {
   switch (otherShape) {
-    case Shape.rock:
+    case _Shape.rock:
       switch (forcedResult) {
-        case Result.win:
-          return Shape.paper;
-        case Result.loose:
-          return Shape.scissors;
-        case Result.draw:
-          return Shape.rock;
+        case _Result.win:
+          return _Shape.paper;
+        case _Result.loose:
+          return _Shape.scissors;
+        case _Result.draw:
+          return _Shape.rock;
       }
-    case Shape.paper:
+    case _Shape.paper:
       switch (forcedResult) {
-        case Result.win:
-          return Shape.scissors;
-        case Result.loose:
-          return Shape.rock;
-        case Result.draw:
-          return Shape.paper;
+        case _Result.win:
+          return _Shape.scissors;
+        case _Result.loose:
+          return _Shape.rock;
+        case _Result.draw:
+          return _Shape.paper;
       }
-    case Shape.scissors:
+    case _Shape.scissors:
       switch (forcedResult) {
-        case Result.win:
-          return Shape.rock;
-        case Result.loose:
-          return Shape.paper;
-        case Result.draw:
-          return Shape.scissors;
+        case _Result.win:
+          return _Shape.rock;
+        case _Result.loose:
+          return _Shape.paper;
+        case _Result.draw:
+          return _Shape.scissors;
       }
   }
   throw StateError('invalid');
 }
 
 // X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win
-Result getForcedResult(String character) {
+_Result _getForcedResult(String character) {
   switch (character) {
     case 'X':
-      return Result.loose;
+      return _Result.loose;
     case 'Y':
-      return Result.draw;
+      return _Result.draw;
     case 'Z':
-      return Result.win;
+      return _Result.win;
     default:
       throw StateError('invalid');
   }
 }
 
 // A for Rock, B for Paper, and C for Scissors
-Shape getOtherShape(String character) {
+_Shape _getOtherShape(String character) {
   switch (character) {
     case 'A':
-      return Shape.rock;
+      return _Shape.rock;
     case 'B':
-      return Shape.paper;
+      return _Shape.paper;
     case 'C':
-      return Shape.scissors;
+      return _Shape.scissors;
     default:
       throw StateError('invalid');
   }
 }
 
 // X for Rock, Y for Paper, and Z for Scissors
-Shape getMyShape(String character) {
+_Shape getMyShape(String character) {
   switch (character) {
     case 'X':
-      return Shape.rock;
+      return _Shape.rock;
     case 'Y':
-      return Shape.paper;
+      return _Shape.paper;
     case 'Z':
-      return Shape.scissors;
+      return _Shape.scissors;
     default:
       throw StateError('invalid');
   }
 }
 
-Result getResult(Shape otherShape, Shape myShape) {
+_Result _getResult(_Shape otherShape, _Shape myShape) {
   switch (otherShape) {
-    case Shape.rock:
+    case _Shape.rock:
       switch (myShape) {
-        case Shape.rock:
-          return Result.draw;
-        case Shape.paper:
-          return Result.win;
-        case Shape.scissors:
-          return Result.loose;
+        case _Shape.rock:
+          return _Result.draw;
+        case _Shape.paper:
+          return _Result.win;
+        case _Shape.scissors:
+          return _Result.loose;
       }
-    case Shape.paper:
+    case _Shape.paper:
       switch (myShape) {
-        case Shape.rock:
-          return Result.loose;
-        case Shape.paper:
-          return Result.draw;
-        case Shape.scissors:
-          return Result.win;
+        case _Shape.rock:
+          return _Result.loose;
+        case _Shape.paper:
+          return _Result.draw;
+        case _Shape.scissors:
+          return _Result.win;
       }
-    case Shape.scissors:
+    case _Shape.scissors:
       switch (myShape) {
-        case Shape.rock:
-          return Result.win;
-        case Shape.paper:
-          return Result.loose;
-        case Shape.scissors:
-          return Result.draw;
+        case _Shape.rock:
+          return _Result.win;
+        case _Shape.paper:
+          return _Result.loose;
+        case _Shape.scissors:
+          return _Result.draw;
       }
   }
 }
 
-int calculateResultScore(Result result) {
+int _calculateResultScore(_Result result) {
   switch (result) {
-    case Result.win:
+    case _Result.win:
       return 6;
-    case Result.loose:
+    case _Result.loose:
       return 0;
-    case Result.draw:
+    case _Result.draw:
       return 3;
     default:
       throw StateError('Invalid');
   }
 }
 
-int calculateShapeScore(Shape myShape) {
+int _calculateShapeScore(_Shape myShape) {
   switch (myShape) {
-    case Shape.rock:
+    case _Shape.rock:
       return 1;
-    case Shape.paper:
+    case _Shape.paper:
       return 2;
-    case Shape.scissors:
+    case _Shape.scissors:
       return 3;
     default:
       throw StateError('Invalid');
   }
 }
 
-enum Shape { rock, paper, scissors }
+enum _Shape { rock, paper, scissors }
 
-enum Result { win, loose, draw }
+enum _Result { win, loose, draw }

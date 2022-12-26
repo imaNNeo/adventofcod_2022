@@ -1,12 +1,54 @@
-import 'dart:collection';
 import 'dart:io';
+
+import 'package:adventofcode/utils/pair.dart';
 
 Future<String> solveDay05() async {
   final inputFile = File('lib/day05/input.txt');
   final lines = await inputFile.readAsLines();
+  return 'part1: ${part1(lines)}, part2: ${part2(lines)}';
+}
 
-  List<List<String>> allData = createDS(lines);
-  int counter = 0;
+String part1(List<String> inputLines) {
+  final parsedInput = _parseInput(inputLines);
+  final stacks = parsedInput.first;
+  final commands = parsedInput.second;
+
+  for (final command in commands) {
+    for (int i = 1; i <= command.moveCount; i++) {
+      stacks[command.moveTo-1].add(stacks[command.moveFrom-1].removeLast());
+    }
+  }
+  return _readTopRow(stacks);
+}
+
+String part2(List<String> inputLines) {
+  final parsedInput = _parseInput(inputLines);
+  final stacks = parsedInput.first;
+  final commands = parsedInput.second;
+
+  for (final command in commands) {
+    List<String> tempStack = [];
+    for (int i = 1; i <= command.moveCount; i++) {
+      final value = stacks[command.moveFrom-1].removeLast();
+      tempStack.add(value);
+    }
+    for (int i = 1; i <= command.moveCount; i++) {
+      final value = tempStack.removeLast();
+      stacks[command.moveTo-1].add(value);
+    }
+  }
+  return _readTopRow(stacks);
+}
+
+String _readTopRow(List<List<String>> stacks) {
+  String result = '';
+  for (final stack in stacks) {
+    result += stack.last.replaceAll('[', '').replaceAll(']', '').trim();
+  }
+  return result;
+}
+Pair<List<List<String>>, List<Command>> _parseInput(List<String> lines) {
+  List<List<String>> allData = _createDS(lines);
   List<Command> commands = [];
   int lineCounter = -1;
   for (var line in lines) {
@@ -29,7 +71,7 @@ Future<String> solveDay05() async {
           break;
         }
       }
-    } else if (line.trim().isEmpty || isNumeric(line[1])) {
+    } else if (line.trim().isEmpty || _isNumeric(line[1])) {
       //skip
       continue;
     } else {
@@ -43,7 +85,7 @@ Future<String> solveDay05() async {
     }
   }
 
-  List<Stack<String>> stacks = List.generate(allData[0].length, (index) => Stack());
+  List<List<String>> stacks = List.generate(allData[0].length, (index) => []);
 
   for (int i = allData.length - 1; i >= 0; i--) {
     for (int j = allData[i].length - 1; j >= 0 ; j--) {
@@ -51,38 +93,17 @@ Future<String> solveDay05() async {
       if (value.trim().isEmpty) {
         continue;
       }
-      stacks[j].push(value);
+      stacks[j].add(value);
     }
   }
-
-  for (final command in commands) {
-    Stack<String> tempStack = Stack();
-    for (int i = 1; i <= command.moveCount; i++) {
-      final value = stacks[command.moveFrom-1].pop();
-      tempStack.push(value);
-    }
-
-    for (int i = 1; i <= command.moveCount; i++) {
-      final value = tempStack.pop();
-      stacks[command.moveTo-1].push(value);
-    }
-  }
-
-  String finalResult = '';
-  for (final stack in stacks) {
-    finalResult += stack.peak().replaceAll('[', '').replaceAll(']', '').trim();
-  }
-  return finalResult;
+  return Pair(stacks, commands);
 }
 
-bool isNumeric(String s) {
-  if (s == null) {
-    return false;
-  }
+bool _isNumeric(String s) {
   return double.tryParse(s) != null;
 }
 
-List<List<String>> createDS(List<String> lines) {
+List<List<String>> _createDS(List<String> lines) {
   int lineCounter = -1;
   int maxColumnCount = 0;
   for (var line in lines) {
@@ -98,7 +119,6 @@ List<List<String>> createDS(List<String> lines) {
           pos += 4;
           continue;
         }
-        final ss = line.substring(pos, pos + 4);
         pos += 4;
         if (pos >= line.length) {
           break;
@@ -107,7 +127,7 @@ List<List<String>> createDS(List<String> lines) {
       if (columnCounter > maxColumnCount) {
         maxColumnCount = columnCounter;
       }
-    } else if (line.trim().isEmpty || isNumeric(line[1])) {
+    } else if (line.trim().isEmpty || _isNumeric(line[1])) {
       //skip
       return List.generate(lineCounter, (index) => List.generate(maxColumnCount, (index) => ' '));
     }
@@ -115,33 +135,6 @@ List<List<String>> createDS(List<String> lines) {
 
   return [[]];
 }
-
-class Stack<T> {
-  final _stack = Queue<T>();
-
-  int get length => _stack.length;
-
-  bool canPop() => _stack.isNotEmpty;
-
-  void clearStack() {
-    while (_stack.isNotEmpty) {
-      _stack.removeLast();
-    }
-  }
-
-  void push(T element) {
-    _stack.addLast(element);
-  }
-
-  T pop() {
-    T lastElement = _stack.last;
-    _stack.removeLast();
-    return lastElement;
-  }
-
-  T peak() => _stack.last;
-}
-
 
 class Command {
   final int moveCount;

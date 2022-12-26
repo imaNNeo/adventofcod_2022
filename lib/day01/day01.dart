@@ -23,6 +23,13 @@ Future<String> solveDay01() async {
 
   carriedCalories.sort();
   carriedCalories = carriedCalories.reversed.toList();
-  final topThree = carriedCalories[0] + carriedCalories[1] + carriedCalories[2];
-  return '$topThree';
+  return 'part1: ${part1(carriedCalories)}, part2: ${part2(carriedCalories)}';
+}
+
+int part1(List<int> calories) {
+  return calories.first;
+}
+
+int part2(List<int> calories) {
+  return calories[0] + calories[1] + calories[2];
 }
